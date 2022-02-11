@@ -1,0 +1,100 @@
+import "strings"
+
+providers = {
+	"aws": {
+		"alias": "",
+		"config": {
+			"profile": {
+				"constant_value": "default",
+			},
+			"region": {
+				"constant_value": "us-east-1",
+			},
+		},
+		"module_address":      "",
+		"name":                "aws",
+		"provider_config_key": "aws",
+		"version_constraint":  "~> 3.70",
+	},
+	"aws.mumbai": {
+		"alias": "mumbai",
+		"config": {
+			"region": {
+				"constant_value": "ap-south-1",
+			},
+		},
+		"module_address":      "",
+		"name":                "aws",
+		"provider_config_key": "aws.mumbai",
+		"version_constraint":  "~> 3.70",
+	},
+	"aws.us-west": {
+		"alias": "us-west",
+		"config": {
+			"region": {
+				"constant_value": "us-west-1",
+			},
+		},
+		"module_address":      "",
+		"name":                "aws",
+		"provider_config_key": "aws.us-west",
+		"version_constraint":  "~> 3.70",
+	},
+}
+
+resources = {
+	"aws_instance.s3_ec21": {
+		"address": "aws_instance.s3_ec21",
+		"config": {
+			"ami": {
+				"references": [
+					"each.value",
+				],
+			},
+			"instance_type": {
+				"constant_value": "t2.micro",
+			},
+			"tags": {
+				"constant_value": {},
+			},
+		},
+		"count":      {},
+		"depends_on": [],
+		"for_each": {
+			"constant_value": {
+				"first_vm":  "ami-033b95fb8079dc481",
+				"second_vm": "ami-04505e74c0741db8d",
+			},
+		},
+		"mode":                "managed",
+		"module_address":      "",
+		"name":                "s3_ec21",
+		"provider_config_key": "aws",
+		"provisioners":        [],
+		"type":                "aws_instance",
+	},
+}
+
+provisioners = {}
+
+variables = {
+	"env": {
+		"default":        "Prod",
+		"description":    "The env for tags",
+		"module_address": "",
+		"name":           "env",
+	},
+}
+
+outputs = {}
+
+module_calls = {}
+
+strip_index = func(addr) {
+	s = strings.split(addr, ".")
+	for s as i, v {
+		s[i] = strings.split(v, "[")[0]
+	}
+
+	return strings.join(s, ".")
+}
