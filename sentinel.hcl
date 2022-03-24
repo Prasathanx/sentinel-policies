@@ -1,5 +1,5 @@
 module "tfstate-functions" {
-  source = "../common-functions/tfstate-functions/tfstate-functions.sentinel"
+  source = "./tfstate-functions.sentinel"
 }
 
 policy "restrict-ec2-instance-type-tag" {
